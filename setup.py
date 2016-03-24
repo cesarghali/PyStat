@@ -4,7 +4,7 @@ from pystat import version
 setup(
     name="pystat",
     version=version,
-    description="Pystat is a simple module that provides statistical computations on running stream of values.",
+    description="PyStat is a simple module that provides statistical computations on running stream of values.",
     author="Cesar Ghali",
     author_email="cesarghali.p@gmail.com",
     license="GNU License",
