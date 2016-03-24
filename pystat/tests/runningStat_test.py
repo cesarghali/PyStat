@@ -141,6 +141,7 @@ class RunningStatTest(unittest.TestCase):
             Case([1], 1),
             Case([1, 1], 1),
             Case([1, 1, 1], 1),
+            Case([1, 2, 0], 0),
             Case([1, 2, 3, 4, 5], 1),
             Case([1.5, 4.7, 24, 8.5], 1.5)
         ]
