@@ -15,7 +15,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 2),
             Case([1, 1, 1], 3),
             Case([1, 2, 3, 4, 5], 5),
-            Case([1.5, 4.7, 24, 8.5], 4)
+            Case([1.5, 4.7, 24, 8.5], 4),
+            Case([-34, 5, 3.6, -104.95, 67.4], 5)
         ]
 
         # Calculating the mean using the pystat module.
@@ -38,7 +39,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 1),
             Case([1, 1, 1], 1),
             Case([1, 2, 3, 4, 5], 3),
-            Case([1.5, 4.7, 24, 8.5], 9.675)
+            Case([1.5, 4.7, 24, 8.5], 9.675),
+            Case([-34, 5, 3.6, -104.95, 67.4], -12.59)
         ]
 
         # Calculating the mean using the pystat module.
@@ -54,7 +56,11 @@ class RunningStatTest(unittest.TestCase):
                              math.isnan(case.mean))
             # If the mean is not a NaN compare it to the expected mean.
             if not math.isnan(runningStat.mean()):
-                self.assertEqual(runningStat.mean(), case.mean)
+                precision = 0
+                if "." in str(case.mean):
+                    precision = len(str(case.mean).split(".")[1])
+                self.assertEqual(round(runningStat.mean(), precision),
+                                 round(case.mean, precision))
 
 
     def test_variance(self):
@@ -65,7 +71,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 0),
             Case([1, 1, 1], 0),
             Case([1, 2, 3, 4, 5], 2.5),
-            Case([1.5, 4.7, 24, 8.5], 99.38916666666665)
+            Case([1.5, 4.7, 24, 8.5], 99.38916666666665),
+            Case([-34, 5, 3.6, -104.95, 67.4], 3989.6705)
         ]
 
         # Calculating the variance using the pystat module.
@@ -81,7 +88,11 @@ class RunningStatTest(unittest.TestCase):
                              math.isnan(case.variance))
             # If the variance is not a NaN compare it to the expected variance.
             if not math.isnan(runningStat.variance()):
-                self.assertEqual(runningStat.variance(), case.variance)
+                precision = 0
+                if "." in str(case.variance):
+                    precision = len(str(case.variance).split(".")[1])
+                self.assertEqual(round(runningStat.variance(), precision),
+                                 round(case.variance, precision))
 
 
     def test_stdev(self):
@@ -92,7 +103,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 0),
             Case([1, 1, 1], 0),
             Case([1, 2, 3, 4, 5], 1.5811388300841898),
-            Case([1.5, 4.7, 24, 8.5], 9.969411550671717)
+            Case([1.5, 4.7, 24, 8.5], 9.969411550671717),
+            Case([-34, 5, 3.6, -104.95, 67.4], 63.16384)
         ]
 
         # Calculating the stdev using the pystat module.
@@ -108,7 +120,11 @@ class RunningStatTest(unittest.TestCase):
                              math.isnan(case.stdev))
             # If the stdev is not a NaN compare it to the expected stdev.
             if not math.isnan(runningStat.stdev()):
-                self.assertEqual(runningStat.stdev(), case.stdev)
+                precision = 0
+                if "." in str(case.stdev):
+                    precision = len(str(case.stdev).split(".")[1])
+                self.assertEqual(round(runningStat.stdev(), precision),
+                                 round(case.stdev, precision))
 
 
     def test_sum(self):
@@ -119,7 +135,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 2),
             Case([1, 1, 1], 3),
             Case([1, 2, 3, 4, 5], 15),
-            Case([1.5, 4.7, 24, 8.5], 38.7)
+            Case([1.5, 4.7, 24, 8.5], 38.7),
+            Case([-34, 5, 3.6, -104.95, 67.4], -62.95)
         ]
 
         # Calculating the sum using the pystat module.
@@ -131,7 +148,11 @@ class RunningStatTest(unittest.TestCase):
                 runningStat.push(element)
 
             # Ensure that the sum is as expected.
-            self.assertEqual(runningStat.sum(), case.sum)
+            precision = 0
+            if "." in str(case.sum):
+                precision = len(str(case.sum).split(".")[1])
+            self.assertEqual(round(runningStat.sum(), precision),
+                             round(case.sum, precision))
 
 
     def test_min(self):
@@ -143,7 +164,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1, 1], 1),
             Case([1, 2, 0], 0),
             Case([1, 2, 3, 4, 5], 1),
-            Case([1.5, 4.7, 24, 8.5], 1.5)
+            Case([1.5, 4.7, 24, 8.5], 1.5),
+            Case([-34, 5, 3.6, -104.95, 67.4], -104.95)
         ]
 
         # Calculating the min using the pystat module.
@@ -170,7 +192,8 @@ class RunningStatTest(unittest.TestCase):
             Case([1, 1], 1),
             Case([1, 1, 1], 1),
             Case([1, 2, 3, 4, 5], 5),
-            Case([1.5, 4.7, 24, 8.5], 24)
+            Case([1.5, 4.7, 24, 8.5], 24),
+            Case([-34, 5, 3.6, -104.95, 67.4], 67.4)
         ]
 
         # Calculating the max using the pystat module.
