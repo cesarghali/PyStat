@@ -80,3 +80,15 @@ class RunningStat:
     def max(self):
         return self.__max
 
+
+    # all return all statistical data.
+    def all(self):
+        result = {}
+        result["count"] = self.count()
+        result["mean"] = self.mean()
+        result["variance"] = self.variance()
+        result["stdev"] = self.stdev()
+        result["sum"] = self.sum()
+        result["min"] = self.min()
+        result["max"] = self.max()
+        return result

@@ -212,5 +212,78 @@ class RunningStatTest(unittest.TestCase):
                 self.assertEqual(runningStat.max(), case.max)
 
 
+    def test_max(self):
+        Case = namedtuple("Case", "array count mean variance stdev sum min max")
+        cases = [
+            Case([], 0, float("nan"), float("nan"), float("nan"), 0,
+                 float("nan"), float("nan")),
+            Case([1], 1, 1, float("nan"), float("nan"), 1, 1, 1),
+            Case([1, 1], 2, 1, 0, 0, 2, 1, 1),
+            Case([1, 1, 1], 3, 1, 0, 0, 3, 1, 1),
+            Case([1, 2, 3, 4, 5], 5, 3, 2.5, 1.5811388300841898, 15, 1, 5),
+            Case([1.5, 4.7, 24, 8.5], 4, 9.675, 99.38916666666665,
+                 9.969411550671717, 38.7, 1.5, 24),
+            Case([-34, 5, 3.6, -104.95, 67.4], 5, -12.59, 3989.6705, 63.16384,
+                 -62.95, -104.95, 67.4)
+        ]
+
+        # Getting all statistical information.
+        for case in cases:
+            runningStat = RunningStat()
+
+            # Push all elements.
+            for element in case.array:
+                runningStat.push(element)
+
+            stat = runningStat.all()
+
+            # Verify obtained stat information
+            # count
+            self.assertEqual(stat["count"], case.count)
+            # mean
+            self.assertEqual(math.isnan(stat["mean"]),
+                             math.isnan(case.mean))
+            if not math.isnan(stat["mean"]):
+                precision = 0
+                if "." in str(case.mean):
+                    precision = len(str(case.mean).split(".")[1])
+                self.assertEqual(round(stat["mean"], precision),
+                                 round(case.mean, precision))
+            # variance
+            self.assertEqual(math.isnan(stat["variance"]),
+                             math.isnan(case.variance))
+            if not math.isnan(stat["variance"]):
+                precision = 0
+                if "." in str(case.variance):
+                    precision = len(str(case.variance).split(".")[1])
+                self.assertEqual(round(stat["variance"], precision),
+                                 round(case.variance, precision))
+            # stdev
+            self.assertEqual(math.isnan(stat["stdev"]),
+                             math.isnan(case.stdev))
+            if not math.isnan(stat["stdev"]):
+                precision = 0
+                if "." in str(case.stdev):
+                    precision = len(str(case.stdev).split(".")[1])
+                self.assertEqual(round(stat["stdev"], precision),
+                                 round(case.stdev, precision))
+            # sum
+            precision = 0
+            if "." in str(case.sum):
+                precision = len(str(case.sum).split(".")[1])
+            self.assertEqual(round(stat["sum"], precision),
+                             round(case.sum, precision))
+            # min
+            self.assertEqual(math.isnan(stat["min"]),
+                             math.isnan(case.min))
+            if not math.isnan(stat["min"]):
+                self.assertEqual(stat["min"], case.min)
+            # max
+            self.assertEqual(math.isnan(stat["max"]),
+                             math.isnan(case.max))
+            if not math.isnan(stat["max"]):
+                self.assertEqual(stat["max"], case.max)
+
+
 if __name__ == '__main__':
     unittest.main()
